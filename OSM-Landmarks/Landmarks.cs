@@ -2,7 +2,7 @@
 {
     public class Landmarks
     {
-        private List<Address> addresses = new();
+        public List<Address> addresses = new();
 
         public Landmarks(List<Address> addresses)
         {
