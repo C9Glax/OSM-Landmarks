@@ -8,6 +8,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Reference Include="Geo-Graph">
+      <HintPath>..\..\Geo-Graph\Geo-Graph\bin\Debug\net6.0\Geo-Graph.dll</HintPath>
+    </Reference>
     <Reference Include="Logging">
       <HintPath>D:\Documents\GitHub\Logging\Logging\bin\Debug\net6.0\Logging.dll</HintPath>
     </Reference>

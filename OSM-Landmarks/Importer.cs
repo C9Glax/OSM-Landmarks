@@ -1,5 +1,6 @@
 ﻿using Logging;
 using System.Xml;
+using GeoGraph;
 namespace OSM_Landmarks
 {
     public class Importer
@@ -13,7 +14,9 @@ namespace OSM_Landmarks
 
         public static Landmarks Import(string filePath = "", Logger? logger = null)
         {
-            List<Address> addresses = new List<Address>();
+            Dictionary<ulong, Node> nodes = new();
+
+            List<Address> addresses = new();
             Stream mapData = File.Exists(filePath) ? new FileStream(filePath, FileMode.Open, FileAccess.Read) : new MemoryStream(OSM_Data.map);
             XmlReader reader = XmlReader.Create(mapData, readerSettings);
             reader.MoveToContent();
@@ -28,9 +31,20 @@ namespace OSM_Landmarks
                     addresses.Add(currentAddress);
                     currentAddress = new Address();
 
-                    if (reader.Name == "node" || reader.Name == "nd")
+                    if(reader.Name == "node")
                     {
                         currentAddress.locationId = Convert.ToUInt64(reader.GetAttribute("id"));
+                        currentAddress.lat = Convert.ToSingle(reader.GetAttribute("lat"));
+                        currentAddress.lon = Convert.ToSingle(reader.GetAttribute("lon"));
+                        nodes.Add(currentAddress.locationId, new Node(currentAddress.lat, currentAddress.lon));
+                    }else if (reader.Name == "nd")
+                    {
+                        currentAddress.locationId = Convert.ToUInt64(reader.GetAttribute("ref"));
+                        if (nodes.ContainsKey(currentAddress.locationId))
+                        {
+                            currentAddress.lat = nodes[currentAddress.locationId].lat;
+                            currentAddress.lon = nodes[currentAddress.locationId].lon;
+                        }
                     }
 
                 }
