@@ -8,5 +8,10 @@
         public string zipCode;
         public string country;
         public ulong locationId; //NodeId
+
+        public override string ToString()
+        {
+            return string.Format("{0} {1}, {2} {3}, {4}", street, house, zipCode, city, country);
+        }
     }
 }
