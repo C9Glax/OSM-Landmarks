@@ -36,7 +36,7 @@ namespace OSM_Landmarks
                         currentAddress.locationId = Convert.ToUInt64(reader.GetAttribute("id"));
                         currentAddress.lat = Convert.ToSingle(reader.GetAttribute("lat"));
                         currentAddress.lon = Convert.ToSingle(reader.GetAttribute("lon"));
-                        nodes.Add(currentAddress.locationId, new Node(currentAddress.lat, currentAddress.lon));
+                        nodes.TryAdd(currentAddress.locationId, new Node(currentAddress.lat, currentAddress.lon));
                     }else if (reader.Name == "nd")
                     {
                         currentAddress.locationId = Convert.ToUInt64(reader.GetAttribute("ref"));
