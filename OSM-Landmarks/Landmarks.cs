@@ -14,9 +14,9 @@
             List<Address> ret = new();
             foreach(Address address in addresses)
             {
-                foreach (string partQuery in query.Split(new char[] {' ', ','}))
+                foreach (string partQuery in query.Split(new char[] {' ', ',', '-'}))
                 {
-                    foreach(string partAddress in address.ToString().Split(new char[] {' ', ',' }))
+                    foreach(string partAddress in address.ToString().Split(new char[] {' ', ',', '-' }))
                     {
                         if(partAddress.ToUpper() == partQuery.ToUpper() && !ret.Contains(address))
                         {
