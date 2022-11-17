@@ -28,7 +28,8 @@ namespace OSM_Landmarks
             {
                 if (newAddressTrigger.Contains(reader.Name))
                 {
-                    addresses.Add(currentAddress);
+                    if (currentAddress.street != null  && currentAddress.street.Length > 0)
+                        addresses.Add(currentAddress);
                     currentAddress = new Address();
 
                     if(reader.Name == "node")
@@ -37,7 +38,8 @@ namespace OSM_Landmarks
                         currentAddress.lat = Convert.ToSingle(reader.GetAttribute("lat"));
                         currentAddress.lon = Convert.ToSingle(reader.GetAttribute("lon"));
                         nodes.TryAdd(currentAddress.locationId, new Node(currentAddress.lat, currentAddress.lon));
-                    }else if (reader.Name == "nd")
+                    }
+                    else if (reader.Name == "nd")
                     {
                         currentAddress.locationId = Convert.ToUInt64(reader.GetAttribute("ref"));
                         if (nodes.ContainsKey(currentAddress.locationId))
