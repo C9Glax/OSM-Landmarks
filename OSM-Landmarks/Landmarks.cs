@@ -9,21 +9,35 @@
             this.addresses = addresses;
         }
 
+
         public List<Address> GetAddressesForQuery(string query)
         {
             List<Address> ret = new();
+            string upquery = Upgrade(query);
             foreach(Address address in addresses)
             {
-                foreach (string partQuery in query.Split(new char[] {' ', ',', '-'}))
+                string upaddress = Upgrade(address.ToString());
+                foreach (string partQuery in upquery.Split(new char[] {' ', ',', '-'}))
                 {
-                    foreach(string partAddress in address.ToString().Split(new char[] {' ', ',', '-' }))
+                    foreach (string partAddress in upaddress.ToString().Split(new char[] { ' ', ',', '-' }))
                     {
-                        if(partAddress.ToUpper() == partQuery.ToUpper() && !ret.Contains(address))
+                        if (partAddress.ToUpper() == partQuery.ToUpper() && !ret.Contains(address))
                         {
                             ret.Add(address);
                         }
                     }
                 }
+            }
+            return ret;
+        }
+
+        static string[] filterWords = { "am", "zum", "auf", "straße", "weg", "allee", "von" };
+        private string Upgrade(string s)
+        {
+            string ret = s.ToLower();
+            foreach(string filter in filterWords)
+            {
+                ret = ret.Replace(filter, "");
             }
             return ret;
         }
