@@ -19,11 +19,14 @@
                 string upaddress = Upgrade(address.ToString());
                 foreach (string partQuery in upquery.Split(new char[] {' ', ',', '-'}))
                 {
-                    foreach (string partAddress in upaddress.ToString().Split(new char[] { ' ', ',', '-' }))
+                    if (partQuery != "")
                     {
-                        if (partAddress.ToUpper() == partQuery.ToUpper() && !ret.Contains(address))
+                        foreach (string partAddress in upaddress.ToString().Split(new char[] { ' ', ',', '-' }))
                         {
-                            ret.Add(address);
+                            if (partAddress != "" && partAddress.ToUpper() == partQuery.ToUpper() && !ret.Contains(address))
+                            {
+                                ret.Add(address);
+                            }
                         }
                     }
                 }
@@ -31,7 +34,7 @@
             return ret;
         }
 
-        static string[] filterWords = { "am", "zum", "auf", "straße", "weg", "allee", "von" };
+        static string[] filterWords = { "am", "zum", "auf", "straße", "weg", "allee", "von", "str" };
         private string Upgrade(string s)
         {
             string ret = s.ToLower();
